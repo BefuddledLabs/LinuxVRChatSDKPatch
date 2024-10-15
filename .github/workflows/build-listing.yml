@@ -8,6 +8,7 @@ env:
 on: 
   workflow_dispatch:
   workflow_run:
+    paths: source.json
     workflows: [Build Release]
     types:
       - completed
@@ -59,7 +60,7 @@ jobs:
       
       # Build Package Version Listing with Nuke
       - name: Build Package Version Listing
-        run: ${{ env.pathToCi }}/build.cmd BuildRepoListing --root ${{ env.pathToCi }} --list-publish-directory $GITHUB_WORKSPACE/${{ env.listPublishDirectory }}
+        run: ${{ env.pathToCi }}/build.cmd BuildMultiPackageListing --root ${{ env.pathToCi }} --list-publish-directory $GITHUB_WORKSPACE/${{ env.listPublishDirectory }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
