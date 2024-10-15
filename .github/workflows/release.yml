@@ -106,7 +106,7 @@ jobs:
             ${{ env.baseZipFile }}
             ${{ env.baseUnityPackage }}
             Packages/befuddledlabs.linuxvrchatsdkpatch.base/package.json
-          tag_name: ${{ env.version }}
+          tag_name: ${{ env.version }}-base
 
       # Make a release tag of the version from the package.json file
       - name: Create Tag
@@ -122,4 +122,4 @@ jobs:
             ${{ env.worldsZipFile }}
             ${{ env.worldsUnityPackage }}
             Packages/befuddledlabs.linuxvrchatsdkpatch.worlds/package.json
-          tag_name: ${{ env.version }}
+          tag_name: ${{ env.version }}-worlds
