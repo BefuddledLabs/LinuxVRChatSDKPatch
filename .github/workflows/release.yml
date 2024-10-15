@@ -93,7 +93,7 @@ jobs:
       
       # Make a release tag of the version from the package.json file 
       - name: Create Tag
-        id: tag_version
+        id: tag_version_base
         uses: rickstaa/action-create-tag@88dbf7ff6fe2405f8e8f6c6fdfd78829bc631f83
         with:
           tag: "${{ env.version }}-base"
@@ -110,7 +110,7 @@ jobs:
 
       # Make a release tag of the version from the package.json file
       - name: Create Tag
-        id: tag_version
+        id: tag_version_worlds
         uses: rickstaa/action-create-tag@88dbf7ff6fe2405f8e8f6c6fdfd78829bc631f83
         with:
           tag: "${{ env.version }}-worlds"
