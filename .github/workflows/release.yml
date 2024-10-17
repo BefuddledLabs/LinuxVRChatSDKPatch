@@ -71,6 +71,31 @@ jobs:
       # Configure the Environment Variables needed for releasing the Package
       - name: Set Environment Variables
         run: |
+          echo "avatarsZipFile=befuddledlabs.linuxvrchatsdkpatch.avatars-${{ steps.version.outputs.value }}".zip >> $GITHUB_ENV
+          echo "avatarsUnityPackage=befuddledlabs.linuxvrchatsdkpatch.avatars-${{ steps.version.outputs.value }}.unitypackage" >> $GITHUB_ENV
+          echo "version=${{ steps.version.outputs.value }}" >> $GITHUB_ENV
+
+      # Zip the Package for release
+      - name: Create Package Zip
+        working-directory: "Packages/befuddledlabs.linuxvrchatsdkpatch.avatars"
+        run: zip -r "${{ github.workspace }}/${{ env.worldsZipFile }}" .
+
+      # Build a list of .meta files for future use
+      - name: Track Package Meta Files
+        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.avatars/" -name \*.meta >> metaList
+
+      # Make a UnityPackage version of the Package for release
+      - name: Create UnityPackage
+        uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
+        with:
+          package-path: ${{ env.worldsUnityPackage }}
+          include-files: metaList
+
+
+
+      # Configure the Environment Variables needed for releasing the Package
+      - name: Set Environment Variables
+        run: |
           echo "worldsZipFile=befuddledlabs.linuxvrchatsdkpatch.worlds-${{ steps.version.outputs.value }}".zip >> $GITHUB_ENV
           echo "worldsUnityPackage=befuddledlabs.linuxvrchatsdkpatch.worlds-${{ steps.version.outputs.value }}.unitypackage" >> $GITHUB_ENV
           echo "version=${{ steps.version.outputs.value }}" >> $GITHUB_ENV
@@ -90,6 +115,9 @@ jobs:
         with:
           package-path: ${{ env.worldsUnityPackage }}
           include-files: metaList
+
+
+
       
       # Make a release tag of the version from the package.json file 
       - name: Create Tag
@@ -107,6 +135,22 @@ jobs:
             ${{ env.baseUnityPackage }}
             Packages/befuddledlabs.linuxvrchatsdkpatch.base/package.json
           tag_name: ${{ env.version }}-base
+
+      # Make a release tag of the version from the package.json file
+      - name: Create Tag
+        id: tag_version_avatars
+        uses: rickstaa/action-create-tag@88dbf7ff6fe2405f8e8f6c6fdfd78829bc631f83
+        with:
+          tag: "${{ env.version }}-avatars"
+
+      - name: Make Release World
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844
+        with:
+          files: |
+            ${{ env.avatarsZipFile }}
+            ${{ env.avatarsUnityPackage }}
+            Packages/befuddledlabs.linuxvrchatsdkpatch.avatars/package.json
+          tag_name: ${{ env.version }}-avatars
 
       # Make a release tag of the version from the package.json file
       - name: Create Tag
