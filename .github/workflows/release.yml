@@ -78,7 +78,7 @@ jobs:
       # Zip the Package for release
       - name: Create Package Zip
         working-directory: "Packages/befuddledlabs.linuxvrchatsdkpatch.avatars"
-        run: zip -r "${{ github.workspace }}/${{ env.worldsZipFile }}" .
+        run: zip -r "${{ github.workspace }}/${{ env.avatarsZipFile }}" .
 
       # Build a list of .meta files for future use
       - name: Track Package Meta Files
@@ -88,7 +88,7 @@ jobs:
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
         with:
-          package-path: ${{ env.worldsUnityPackage }}
+          package-path: ${{ env.avatarsUnityPackage }}
           include-files: metaList
 
 
