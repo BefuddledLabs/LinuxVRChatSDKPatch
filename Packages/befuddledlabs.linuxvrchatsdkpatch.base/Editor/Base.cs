@@ -1,15 +1,46 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
 using HarmonyLib;
+using JetBrains.Annotations;
 using UnityEditor;
 using UnityEngine;
+using VRC.Core;
 
 namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
 {
     [HarmonyPatch]
     public static class Base
     {
+        [CanBeNull]
+        public static string GetCompatDataPath()
+        {
+            var vrChatPath = SDKClientUtilities.GetSavedVRCInstallPath();
+            if (string.IsNullOrWhiteSpace(vrChatPath))
+                return null;
+
+            var dir = new FileInfo(vrChatPath).Directory;
+            if (dir == null)
+                return null;
+            
+            while (!dir.Name.Contains("steamapps", StringComparison.OrdinalIgnoreCase))
+            {
+                dir = dir.Parent;
+                if (dir == null)
+                    return null;
+            }
+            
+            return dir.FullName + "/compatdata/";
+        }
+
+        [CanBeNull]
+        public static string GetVrcCompatDataPath()
+        {
+            return GetCompatDataPath() + "438100/";
+        }
+        
         public static string GetSavedProtonPath()
         {
             var savedVrcInstallPath = "";
