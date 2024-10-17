@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using HarmonyLib;
@@ -21,12 +22,16 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
         [HarmonyPatch(typeof(VRCWorldAssetExporter), "RunScene", typeof(string), typeof(string))]
         public static bool RunScenePrefix(object[] __args)
         {
+            var compatDataPath = Base.Editor.Base.GetVrcCompatDataPath();
+            if (compatDataPath == null)
+            {
+                Debug.LogError("Could not find compatdata Path");
+                return false;
+            }
+
             var bundleFilePath = ((string)__args[0]).Replace('\\', '/');
             var pluginFilePath = ((string)__args[1]).Replace('\\', '/');
 
-            var str1 = bundleFilePath;//UnityWebRequest.EscapeURL(bundleFilePath).Replace("+", "%20");
-            var str2 = pluginFilePath;//UnityWebRequest.EscapeURL(pluginFilePath).Replace("+", "%20");
-            var randomDigits = VRC.Tools.GetRandomDigits(10);
             var path = SDKClientUtilities.GetSavedVRCInstallPath();
             if (string.IsNullOrEmpty(path) || !File.Exists(path))
             {
@@ -34,22 +39,40 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
                 return true;
             }
 
-            var str3 = "'--url=create?roomId=" + randomDigits + "&hidden=true&name=BuildAndRun&url=file:///" + str1 + "'";
-            if (!string.IsNullOrEmpty(str2))
-                str3 = str3 + "&pluginUrl=file:///" + str2;
-            var str4 = "--enable-debug-gui --enable-sdk-log-levels --enable-udon-debug-logging " +
-                       (VRCSettings.ForceNoVR ? " --no-vr" : "") + (VRCSettings.WatchWorlds ? " --watch-worlds" : "");
-
-            var args = "run " + path + " " + str3 + " " + str4;
+            var args = new StringBuilder();
+            args.Append("run ");
+            args.Append(path);
+            args.Append(' ');
             
-            args = Regex.Replace(args, @"file:[/\\]*", "file:///Z:/");
-            Debug.Log(Base.Editor.Base.GetSavedProtonPath() + args);
+            args.Append('\'');
+            args.Append("--url=create?roomId=");
+                args.Append(VRC.Tools.GetRandomDigits(10)); // Random roomId
+                    args.Append("&hidden=true");
+                        args.Append("&name=BuildAndRun");
+                            args.Append("&url=file:///");
+                                args.Append(bundleFilePath);
+                                if (!string.IsNullOrEmpty(pluginFilePath))
+                                {
+                                    args.Append("&pluginUrl=file:///");
+                                    args.Append(pluginFilePath);
+                                }
+            args.Append('\'');
+            
+            args.Append(" --enable-debug-gui");
+            args.Append(" --enable-sdk-log-levels");
+            args.Append(" --enable-udon-debug-logging");
+            if (VRCSettings.ForceNoVR)
+                args.Append(" --no-vr");
+            if (VRCSettings.WatchWorlds)
+                args.Append(" --watch-worlds");
+
+            var argsPathFixed = Regex.Replace(args.ToString(), @"file:[/\\]*", "file:///Z:/");
             var processStartInfo =
-                new ProcessStartInfo(Base.Editor.Base.GetSavedProtonPath(), args)
+                new ProcessStartInfo(Base.Editor.Base.GetSavedProtonPath(), argsPathFixed)
                 {
                     EnvironmentVariables =
                     {
-                        { "STEAM_COMPAT_DATA_PATH", Environment.GetEnvironmentVariable("HOME") + "/.steam/steam/steamapps/compatdata/438100/" },
+                        { "STEAM_COMPAT_DATA_PATH", Environment.GetEnvironmentVariable("HOME") + compatDataPath },
                         { "STEAM_COMPAT_CLIENT_INSTALL_PATH", Environment.GetEnvironmentVariable("HOME") + "/.steam/" }
                     },
                     WorkingDirectory = Path.GetDirectoryName(path) ?? "",
@@ -64,31 +87,25 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
 
             return false;
         }
-        
+
         // Thanks Bartkk0
         // Source: https://github.com/Bartkk0/VRCSDKonLinux/blob/master/WorldSdkPatcher.cs
         [HarmonyTranspiler]
-        [HarmonyPatch(typeof(VRCWorldAssetExporter), "ExportCurrentSceneResource", typeof(bool), typeof(Action<string>),
-            typeof(Action<object>))]
-        public static IEnumerable<CodeInstruction> ExportCurrentSceneResourceTranspiler(
-            IEnumerable<CodeInstruction> instructions)
+        [HarmonyPatch(typeof(VRCWorldAssetExporter), "ExportCurrentSceneResource", typeof(bool), typeof(Action<string>), typeof(Action<object>))]
+        public static IEnumerable<CodeInstruction> ExportCurrentSceneResourceTranspiler(IEnumerable<CodeInstruction> instructions)
         {
             var codes = instructions.ToList();
             for (var i = 0; i < codes.Count; i++)
             {
-                if (codes[i].opcode == OpCodes.Ldstr)
-                {
-                    if (codes[i].operand.ToString().Contains(".vrcw"))
-                    {
-                        i += 3;
-                        var str2 = codes[i].operand;
-                        i++;
-                        codes.Insert(i++, new CodeInstruction(OpCodes.Ldloc_S, str2));
-                        codes.Insert(i++, CodeInstruction.Call(typeof(String), "ToLower"));
-                        codes.Insert(i++, new CodeInstruction(OpCodes.Stloc_S, str2));
-                        break;
-                    }
-                }
+                if (codes[i].opcode != OpCodes.Ldstr) continue;
+                if (!codes[i].operand.ToString().Contains(".vrcw")) continue;
+                
+                i += 3;
+                var str2 = codes[i].operand;
+                codes.Insert(++i, new CodeInstruction(OpCodes.Ldloc_S, str2));
+                codes.Insert(++i, CodeInstruction.Call(typeof(String), "ToLower"));
+                codes.Insert(++i, new CodeInstruction(OpCodes.Stloc_S, str2));
+                break;
             }
 
             return codes.AsEnumerable();
