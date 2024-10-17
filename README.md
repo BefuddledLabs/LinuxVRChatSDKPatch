@@ -7,11 +7,9 @@
 ## How to install
 1. [ALCOM](https://github.com/vrc-get/vrc-get) [Recommended]
     1. Add the `Linux VRChat SDK Patch` package to [ALCOM](https://github.com/vrc-get/vrc-get) via the listing at [`befuddledlabs.github.io/LinuxVRChatSDKPatch`](https://befuddledlabs.github.io/LinuxVRChatSDKPatch/).
-    2. Install the appropriate package `Linux VRChat SDK Patch` Worlds or Avatars*
+    2. Install the appropriate package `Linux VRChat SDK Patch` Worlds or Avatars
 2. Manual
-    1. Download the Base and either Worlds or Avatars* UnityPackage(s) from the [Releases](https://github.com/BefuddledLabs/LinuxVRChatSDKPatch/releases).
-
-* The Avatars package hasn't been made yet.
+    1. Download the Base and either Worlds or Avatars UnityPackage(s) from the [Releases](https://github.com/BefuddledLabs/LinuxVRChatSDKPatch/releases).
 
 ## How to use
 ![VRCSdkSettings](/Docs/VRCSdkSettings)
