@@ -57,14 +57,14 @@ jobs:
       
       # Build a list of .meta files for future use
       - name: Track Package Meta Files
-        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.base/" -name \*.meta >> metaList
+        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.base/" -name \*.meta >> metaListBase
       
       # Make a UnityPackage version of the Package for release
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
         with:
           package-path: ${{ env.baseUnityPackage }}
-          include-files: metaList
+          include-files: metaListBase
 
 
 
@@ -82,14 +82,14 @@ jobs:
 
       # Build a list of .meta files for future use
       - name: Track Package Meta Files
-        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.avatars/" -name \*.meta >> metaList
+        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.avatars/" -name \*.meta >> metaListAvatars
 
       # Make a UnityPackage version of the Package for release
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
         with:
           package-path: ${{ env.avatarsUnityPackage }}
-          include-files: metaList
+          include-files: metaListAvatars
 
 
 
@@ -107,14 +107,14 @@ jobs:
 
       # Build a list of .meta files for future use
       - name: Track Package Meta Files
-        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.worlds/" -name \*.meta >> metaList
+        run: find "Packages/befuddledlabs.linuxvrchatsdkpatch.worlds/" -name \*.meta >> metaListWorlds
 
       # Make a UnityPackage version of the Package for release
       - name: Create UnityPackage
         uses: pCYSl5EDgo/create-unitypackage@cfcd3cf0391a5ef1306342794866a9897c32af0b
         with:
           package-path: ${{ env.worldsUnityPackage }}
-          include-files: metaList
+          include-files: metaListWorlds
 
 
 
