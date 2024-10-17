@@ -15,6 +15,7 @@
 
 ## How to use
 ![VRCSdkSettings](/Docs/VRCSdkSettings)
+
 Select both your VRChat exe and proton binary in the settings of the VRChat SDK's settings pannel.
 
 ## Development
