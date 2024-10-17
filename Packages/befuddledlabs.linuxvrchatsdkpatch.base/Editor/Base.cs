@@ -1,13 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
 using HarmonyLib;
 using JetBrains.Annotations;
 using UnityEditor;
-using UnityEngine;
 using VRC.Core;
+using VRC.SDKBase.Editor;
 
 namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
 {
@@ -53,43 +50,14 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             EditorPrefs.SetString("LinuxVRC_protonPath", protonPath);
         }
-
-        private static void OnProtonInstallPathGUI()
+        
+        // Thanks Bartkk <3
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(VRC_SdkBuilder), "GetLocalLowPath")]
+        public static bool GetLocalLowPathPrefix(ref string __result)
         {
-            var protonPath = GetSavedProtonPath();
-            EditorGUILayout.LabelField("Proton", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Installed Proton Path: ", protonPath);
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("");
-            
-            if (GUILayout.Button("Edit"))
-            {
-                var initPath = "";
-                if (!string.IsNullOrEmpty(protonPath))
-                    initPath = protonPath;
-
-                protonPath = EditorUtility.OpenFilePanel("Choose Proton Binary", initPath, "");
-                SetProtonPath(protonPath);
-            }
-
-            EditorGUILayout.EndHorizontal();
-            EditorGUILayout.Separator();
-        }
-
-        [HarmonyTranspiler]
-        [HarmonyPatch(typeof(VRCSdkControlPanel), "ShowSettings")]
-        public static IEnumerable<CodeInstruction> ShowSettingsTranspiler(IEnumerable<CodeInstruction> instructions)
-        {
-            var codes = instructions.ToList();
-            for (var i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode != OpCodes.Call) continue;
-                if (!codes[i].operand.ToString().Contains("OnVRCInstallPathGUI")) continue;
-                codes.Insert(i, CodeInstruction.Call(typeof(Base), "OnProtonInstallPathGUI"));
-                break;
-            }
-
-            return codes.AsEnumerable();
+            __result = GetVrcCompatDataPath() + "pfx/drive_c/users/steamuser/AppData/LocalLow/";
+            return false;
         }
     }
 }
