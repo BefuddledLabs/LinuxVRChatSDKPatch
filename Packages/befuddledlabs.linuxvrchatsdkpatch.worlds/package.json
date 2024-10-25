@@ -1,7 +1,7 @@
 {
   "name": "befuddledlabs.linuxvrchatsdkpatch-worlds",
   "displayName": "Linux VRChat SDK Patch Worlds",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "url": "https://github.com/BefuddledLabs/LinuxVRChatSDKPatch",
   "author": {
     "name": "BefuddledLabs"
@@ -10,6 +10,6 @@
   "description": "Patches the VRChat SDK to work propperly on linux.",
   "vpmDependencies": {
     "com.vrchat.worlds": "^3.5.0",
-    "befuddledlabs.linuxvrchatsdkpatch-base": "0.0.3"
+    "befuddledlabs.linuxvrchatsdkpatch-base": "0.0.4"
   }
 }
