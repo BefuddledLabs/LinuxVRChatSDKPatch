@@ -14,7 +14,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             var protonPath = Base.GetSavedProtonPath();
             EditorGUILayout.LabelField("Proton", EditorStyles.boldLabel);
-            EditorGUILayout.LabelField("Installed Proton Path: ", protonPath);
+            EditorGUILayout.LabelField("Proton Python File: ", protonPath);
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("");
             
@@ -24,7 +24,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
                 if (!string.IsNullOrEmpty(protonPath))
                     initPath = protonPath;
 
-                protonPath = EditorUtility.OpenFilePanel("Choose Proton Binary", initPath, "");
+                protonPath = EditorUtility.OpenFilePanel("Choose Proton Python File (not wine in the proton folder)", initPath, "");
                 Base.SetProtonPath(protonPath);
             }
 
