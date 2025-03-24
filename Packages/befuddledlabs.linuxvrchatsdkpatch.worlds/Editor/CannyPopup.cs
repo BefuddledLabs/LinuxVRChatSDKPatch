@@ -12,6 +12,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
         
         static CannyPopup()
         {
+            return; // Canny was maked as complete :) still keeping in here for future use
             if (EditorPrefs.GetBool("LinuxVRC_cannyDialog", false) || !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 return;
             
