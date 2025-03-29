@@ -2,7 +2,7 @@ using System.Runtime.InteropServices;
 using UnityEditor;
 using UnityEngine;
 
-namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
+namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
 {
     [InitializeOnLoad]
     public static class CannyPopup
@@ -12,17 +12,16 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
         
         static CannyPopup()
         {
-            return; // Canny was maked as complete :) still keeping in here for future use
             if (EditorPrefs.GetBool("LinuxVRC_cannyDialog", false) || !RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 return;
             
             var result = EditorUtility.DisplayDialog("Linux VRChat Patch",
-                "Please upvote this canny instead of needing this patch for uploading worlds.",
+                "Please upvote this canny instead of needing this patch local tests.",
                 "Open Canny", "Don't show again");
             
             if (result)
-               Application.OpenURL("https://feedback.vrchat.com/sdk-bug-reports/p/world-uploading-failed-on-linux");
-            EditorPrefs.SetBool("LinuxVRC_cannyDialog", true);
+               Application.OpenURL("https://feedback.vrchat.com/sdk-bug-reports/p/add-proton-support-to-the-sdk-for-local-tests");
+            EditorPrefs.SetBool("LinuxVRC_cannyDialog", true);//
         }
     }
 }
