@@ -1,7 +1,7 @@
 {
   "name": "befuddledlabs.linuxvrchatsdkpatch-base",
   "displayName": "Linux VRChat SDK Patch Base",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "url": "https://github.com/BefuddledLabs/LinuxVRChatSDKPatch",
   "author": {
     "name": "BefuddledLabs"
@@ -9,6 +9,6 @@
   "unity": "2022.3",
   "description": "Patches the VRChat SDK to work properly on linux.",
   "vpmDependencies": {
-    "com.vrchat.base": "^3.5.0"
+    "com.vrchat.base": "^3.7.6"
   }
 }
