@@ -38,11 +38,11 @@ jobs:
       
       # Checkout Local Repository
       - name: Checkout Local Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # Checkout Automation Repository without removing prior checkouts
       - name: Checkout Automation Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: vrchat-community/package-list-action
           path: ${{ env.pathToCi }}
@@ -50,7 +50,7 @@ jobs:
 
       # Load cached data from previous runs
       - name: Restore Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ${{ env.pathToCi }}/.nuke/temp
@@ -65,15 +65,15 @@ jobs:
 
       # Prepare for GitHub Pages deployment
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        uses: actions/configure-pages@v5
       
       # Upload the VPM Listing Website to GitHub Pages artifacts
       - name: Upload Pages Artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ env.listPublishDirectory }}
       
       # Deploy the uploaded VPM Listing Website to GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
