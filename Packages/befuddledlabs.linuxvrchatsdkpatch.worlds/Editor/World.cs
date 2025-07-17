@@ -23,14 +23,16 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             var vrcInstallPath = SDKClientUtilities.GetSavedVRCInstallPath();
             if (string.IsNullOrEmpty(vrcInstallPath) || !File.Exists(vrcInstallPath))
             {
-                Debug.LogError("couldn't get VRChat path.. You probobly forgot to set it at: VRChat control panel > Settings > VRChat Client");
+                Debug.LogError("couldn't get VRChat path.. You probobly forgot to set it at: " +
+                               "VRChat control panel > Settings > VRChat Client");
                 return true;
             }
 
             var protonInstallPath = Base.Editor.Base.GetSavedProtonPath();
             if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath)) 
             {
-                Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: VRChat control panel > Settings > Proton Python File");
+                Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: " +
+                               "VRChat control panel > Settings > Proton Python File");
                 return true;
             }
 
