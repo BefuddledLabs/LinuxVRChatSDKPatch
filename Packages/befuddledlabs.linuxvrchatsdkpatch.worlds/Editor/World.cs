@@ -50,15 +50,15 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
 
             var args = new StringBuilder();
             args.Append("run ");
-            args.Append(vrcInstallPath);
+            args.Append($"\"{vrcInstallPath}\"");
             args.Append(' ');
 
-            args.Append("--url=create?roomId=");
+            args.Append("--url=\"create?roomId=");
                 args.Append(VRC.Tools.GetRandomDigits(10)); // Random roomId
                     args.Append("&hidden=true");
                         args.Append("&name=BuildAndRun");
                             args.Append("&url=file:///");
-                                args.Append(bundleFilePath);
+                                args.Append($"{bundleFilePath}\"");
 
             args.Append(" --enable-debug-gui");
             args.Append(" --enable-sdk-log-levels");
