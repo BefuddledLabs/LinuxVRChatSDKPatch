@@ -4,6 +4,9 @@
 > This modifies the VRChat SDK using [Harmony](https://github.com/pardeike/Harmony) to properly work on Linux. \
 > This is directly against the VRChat Terms of Service.
 
+> [!IMPORTANT]
+> Please support this [canny issue](https://feedback.vrchat.com/sdk-bug-reports/p/add-proton-support-to-the-sdk-for-local-tests) ([Add Proton support to the SDK for local tests](https://feedback.vrchat.com/sdk-bug-reports/p/add-proton-support-to-the-sdk-for-local-tests)) so that these patches wouldn't be required in the future.
+
 ## How to install
 1. [ALCOM](https://github.com/vrc-get/vrc-get) [Recommended]
     1. Add the `Linux VRChat SDK Patch` package to [ALCOM](https://github.com/vrc-get/vrc-get) via the listing at [`befuddledlabs.github.io/LinuxVRChatSDKPatch`](https://befuddledlabs.github.io/LinuxVRChatSDKPatch/).
