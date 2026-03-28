@@ -17,21 +17,22 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
             EditorGUILayout.LabelField("Proton Python File: ", protonPath);
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("");
-            
+
             if (GUILayout.Button("Edit"))
             {
                 var initPath = "";
                 if (!string.IsNullOrEmpty(protonPath))
                     initPath = protonPath;
 
-                protonPath = EditorUtility.OpenFilePanel("Choose Proton Python File (not wine in the proton folder)", initPath, "");
+                protonPath = EditorUtility.OpenFilePanel("Choose Proton Python File (not wine in the proton folder)",
+                    initPath, "");
                 Base.SetProtonPath(protonPath);
             }
 
             EditorGUILayout.EndHorizontal();
             EditorGUILayout.Separator();
         }
-        
+
         [HarmonyTranspiler]
         [HarmonyPatch(typeof(VRCSdkControlPanel), "ShowSettings")]
         public static IEnumerable<CodeInstruction> ShowSettingsTranspiler(IEnumerable<CodeInstruction> instructions)

@@ -21,14 +21,14 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
             var dir = new FileInfo(vrChatPath).Directory;
             if (dir == null)
                 return null;
-            
+
             while (!dir.Name.Contains("steamapps", StringComparison.OrdinalIgnoreCase))
             {
                 dir = dir.Parent;
                 if (dir == null)
                     return null;
             }
-            
+
             return dir.FullName + "/compatdata/";
         }
 
@@ -37,7 +37,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             return GetCompatDataPath() + "438100/";
         }
-        
+
         public static string GetSavedProtonPath()
         {
             var savedVrcInstallPath = "";
@@ -50,7 +50,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             EditorPrefs.SetString("LinuxVRC_protonPath", protonPath);
         }
-        
+
         // Thanks Bartkk <3
         [HarmonyPrefix]
         [HarmonyPatch(typeof(VRC_SdkBuilder), "GetLocalLowPath")]

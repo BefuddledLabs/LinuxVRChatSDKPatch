@@ -14,7 +14,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 return;
-            
+
             _harmony = new Harmony("BefuddledLabs.LinuxVRChatSdkPatch-World");
             _harmony.PatchAll();
         }

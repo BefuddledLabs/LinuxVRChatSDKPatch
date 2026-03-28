@@ -29,7 +29,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             }
 
             var protonInstallPath = Base.Editor.Base.GetSavedProtonPath();
-            if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath)) 
+            if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath))
             {
                 Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: " +
                                "VRChat control panel > Settings > Proton Python File");
@@ -69,7 +69,9 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
                 args.Append(" --watch-worlds");
 
 
-            var argsPathFixed = Regex.Replace(args.ToString(), @"file:[/\\]*", "file:///Z:/"); // The file we have is relative to / and not the "c drive" Z:/ is /
+            var argsPathFixed =
+                Regex.Replace(args.ToString(), @"file:[/\\]*",
+                    "file:///Z:/"); // The file we have is relative to / and not the "c drive" Z:/ is /
 
             Debug.Log(protonInstallPath + argsPathFixed);
 
