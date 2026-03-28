@@ -1,7 +1,7 @@
 {
   "name": "befuddledlabs.linuxvrchatsdkpatch-base",
   "displayName": "Linux VRChat SDK Patch Base",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "url": "https://github.com/BefuddledLabs/LinuxVRChatSDKPatch",
   "author": {
     "name": "BefuddledLabs"
