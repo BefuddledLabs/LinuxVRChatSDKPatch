@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using HarmonyLib;
 using JetBrains.Annotations;
@@ -32,23 +33,64 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
             return dir.FullName + "/compatdata/";
         }
 
+        static Base()
+        {
+            // Check if the user has protontricks installed
+            try
+            {
+                var p = new Process
+                {
+                    StartInfo = new ProcessStartInfo
+                    {
+                        FileName = "protontricks-launch",
+                        Arguments = "-h", // so it doesn't fail
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true,
+                        UseShellExecute = false
+                    }
+                };
+
+                p.Start();
+                p.WaitForExit();
+
+                HasProtonTricks = p.ExitCode == 0;
+            }
+            catch
+            {
+                HasProtonTricks = false;
+            }
+        }
+
+        public static bool HasProtonTricks;
+
         [CanBeNull]
         public static string GetVrcCompatDataPath()
         {
             return GetCompatDataPath() + "438100/";
         }
 
-        public static string GetSavedProtonPath()
+        public static string ProtonPath
         {
-            var savedVrcInstallPath = "";
-            if (EditorPrefs.HasKey("LinuxVRC_protonPath"))
-                savedVrcInstallPath = EditorPrefs.GetString("LinuxVRC_protonPath");
-            return savedVrcInstallPath;
+            get
+            {
+                var savedVrcInstallPath = "";
+                if (EditorPrefs.HasKey("LinuxVRC_protonPath"))
+                    savedVrcInstallPath = EditorPrefs.GetString("LinuxVRC_protonPath");
+                return savedVrcInstallPath;
+            }
+            set => EditorPrefs.SetString("LinuxVRC_protonPath", value);
         }
-
-        public static void SetProtonPath(string protonPath)
+        
+        public static bool ProtonTricksPrefs
         {
-            EditorPrefs.SetString("LinuxVRC_protonPath", protonPath);
+            get
+            {
+                var savedProtonTricksPrefs = true; // Default use proton tricks
+                if (EditorPrefs.HasKey("LinuxVRC_protonTricksPrefs"))
+                    savedProtonTricksPrefs = EditorPrefs.GetBool("LinuxVRC_protonTricksPrefs");
+                return savedProtonTricksPrefs;
+            }
+            set => EditorPrefs.SetBool("LinuxVRC_protonTricksPrefs", value);
         }
 
         // Thanks Bartkk <3

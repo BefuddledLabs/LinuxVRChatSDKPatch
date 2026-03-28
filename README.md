@@ -17,7 +17,9 @@
 ## How to use
 ![VRCSdkSettings](/Docs/VRCSdkSettings)
 
-Select both your VRChat exe and proton binary in the settings of the VRChat SDK's settings pannel.
+Select the VRChat binary the settings of the VRChat SDK's settings panel. \
+if you have `protontricks` installed the patch will auto detect the proton install for VRChat, \
+if you don't have protontricks you'll also need to select the proton python file in the VRChat SDK's settings panel.
 
 ## Development
 

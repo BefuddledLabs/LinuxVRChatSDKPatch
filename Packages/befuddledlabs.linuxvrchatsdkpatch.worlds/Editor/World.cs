@@ -32,15 +32,15 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             {
                 Debug.LogError("couldn't get VRChat path.. You probobly forgot to set it at: " +
                                "VRChat control panel > Settings > VRChat Client");
-                return true;
+                return false;
             }
 
-            var protonInstallPath = Base.Editor.Base.GetSavedProtonPath();
+            var protonInstallPath = Base.Editor.Base.ProtonPath;
             if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath))
             {
                 Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: " +
                                "VRChat control panel > Settings > Proton Python File");
-                return true;
+                return false;
             }
 
             var compatDataPath = Base.Editor.Base.GetVrcCompatDataPath();
@@ -56,7 +56,11 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             bundleFilePath = "file:///" + UnityWebRequest.EscapeURL(bundleFilePath).Replace("+", "%20");
 
             var args = new StringBuilder();
-            args.Append("run ");
+            if (Base.Editor.Base.HasProtonTricks && Base.Editor.Base.ProtonTricksPrefs)
+                args.Append("--appid 438100 ");
+            else
+                args.Append("run ");
+
             args.InQuotes(vrcInstallPath);
             args.Append(' ');
 
@@ -82,10 +86,12 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
                 Regex.Replace(args.ToString(), @"file:[/\\]*",
                     "file:///Z:/"); // The file we have is relative to / and not the "c drive" Z:/ is /
 
-            Debug.Log(protonInstallPath + argsPathFixed);
+            var launchCommand = Base.Editor.Base.HasProtonTricks && Base.Editor.Base.ProtonTricksPrefs ? "protontricks-launch" : protonInstallPath;
+            
+            Debug.Log(launchCommand + " " + argsPathFixed);
 
             var processStartInfo =
-                new ProcessStartInfo(protonInstallPath, argsPathFixed)
+                new ProcessStartInfo(launchCommand, argsPathFixed)
                 {
                     EnvironmentVariables =
                     {
