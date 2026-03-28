@@ -16,6 +16,13 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
     [HarmonyPatch]
     public static class World
     {
+        public static void InQuotes(this StringBuilder sb, object contents)
+        {
+            sb.Append('"');
+            sb.Append(contents);
+            sb.Append('"');
+        }
+
         [HarmonyPrefix]
         [HarmonyPatch(typeof(VRCWorldAssetExporter), "RunWorldTestDesktop", typeof(string))]
         public static bool RunWorldTestDesktopPrefix(object[] __args)
@@ -46,19 +53,21 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             // Making sure that the paths are using forward slashes
             var bundleFilePath = ((string)__args[0]).Replace('\\', '/');
 
-            bundleFilePath = UnityWebRequest.EscapeURL(bundleFilePath).Replace("+", "%20");
+            bundleFilePath = "file:///" + UnityWebRequest.EscapeURL(bundleFilePath).Replace("+", "%20");
 
             var args = new StringBuilder();
             args.Append("run ");
-            args.Append(vrcInstallPath);
+            args.InQuotes(vrcInstallPath);
             args.Append(' ');
 
+            // @formatter:off
             args.Append("--url=create?roomId=");
                 args.Append(VRC.Tools.GetRandomDigits(10)); // Random roomId
                     args.Append("&hidden=true");
                         args.Append("&name=BuildAndRun");
-                            args.Append("&url=file:///");
-                                args.Append(bundleFilePath);
+                            args.Append("&url=");
+                                args.InQuotes(bundleFilePath);
+            // @formatter:on 
 
             args.Append(" --enable-debug-gui");
             args.Append(" --enable-sdk-log-levels");
