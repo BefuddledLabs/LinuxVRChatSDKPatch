@@ -35,19 +35,25 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
                 return false;
             }
 
-            var protonInstallPath = Base.Editor.Base.ProtonPath;
-            if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath))
-            {
-                Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: " +
-                               "VRChat control panel > Settings > Proton Python File");
-                return false;
-            }
+            var useProtonTricks = Base.Editor.Base.HasProtonTricks && Base.Editor.Base.ProtonTricksPrefs;
 
+            var protonInstallPath = Base.Editor.Base.ProtonPath;
             var compatDataPath = Base.Editor.Base.GetVrcCompatDataPath();
-            if (compatDataPath == null) // Check if we could find the compatdata directory
+
+            if (!useProtonTricks) // if we are using protontricks we shouldn't check that these paths are valid
             {
-                Debug.LogError("Could not find compatdata Path");
-                return false;
+                if (string.IsNullOrEmpty(protonInstallPath) || !File.Exists(protonInstallPath))
+                {
+                    Debug.LogError("couldn't get Proton path.. You probobly forgot to set it at: " +
+                                   "VRChat control panel > Settings > Proton Python File");
+                    return false;
+                }
+    
+                if (compatDataPath == null) // Check if we could find the compatdata directory
+                {
+                    Debug.LogError("Could not find compatdata Path");
+                    return false;
+                }
             }
 
             // Making sure that the paths are using forward slashes
@@ -56,7 +62,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
             bundleFilePath = "file:///" + UnityWebRequest.EscapeURL(bundleFilePath).Replace("+", "%20");
 
             var args = new StringBuilder();
-            if (Base.Editor.Base.HasProtonTricks && Base.Editor.Base.ProtonTricksPrefs)
+            if (useProtonTricks)
                 args.Append("--appid 438100 ");
             else
                 args.Append("run ");
