@@ -7,9 +7,9 @@
     "name": "BefuddledLabs"
   },
   "unity": "2022.3",
-  "description": "Patches the VRChat SDK to work properly on linux.",
+  "description": "Patches the VRChat Avatars SDK to work properly on Linux.",
   "vpmDependencies": {
-    "com.vrchat.avatars": "^3.8.2",
+    "com.vrchat.avatars": "^3.10.3",
     "befuddledlabs.linuxvrchatsdkpatch-base": "0.2.2"
   }
 }
