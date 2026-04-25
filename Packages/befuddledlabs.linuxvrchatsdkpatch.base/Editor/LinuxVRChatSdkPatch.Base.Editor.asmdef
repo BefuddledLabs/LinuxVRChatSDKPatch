@@ -1,6 +1,6 @@
 {
     "name": "LinuxVRChatSdkPatch.Base.Editor",
-    "rootNamespace": "",
+    "rootNamespace": "BefuddledLabs.LinuxVRChatSdkPatch.Base",
     "references": [
         "VRC.SDKBase",
         "VRC.SDKBase.Editor"
