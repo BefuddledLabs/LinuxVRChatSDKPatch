@@ -88,7 +88,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
                 var savedProtonTricksPrefs = true; // Default use proton tricks
                 if (EditorPrefs.HasKey("LinuxVRC_protonTricksPrefs"))
                     savedProtonTricksPrefs = EditorPrefs.GetBool("LinuxVRC_protonTricksPrefs");
-                return savedProtonTricksPrefs;
+                return savedProtonTricksPrefs && HasProtonTricks;
             }
             set => EditorPrefs.SetBool("LinuxVRC_protonTricksPrefs", value);
         }
