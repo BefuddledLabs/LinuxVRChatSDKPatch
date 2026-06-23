@@ -1,22 +1,27 @@
+#nullable enable
+
+using System.Linq;
 using System.Runtime.InteropServices;
 using HarmonyLib;
 using UnityEditor;
+using UnityEngine;
 
 namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor
 {
     [InitializeOnLoad]
     public static class Patch
     {
-        internal static Harmony _harmony;
-
+        private const string HarmonyID = "BefuddledLabs.LinuxVRChatSdkPatch.Worlds";
+        private static readonly Harmony WorldsHarmony = new(HarmonyID);
 
         static Patch()
         {
             if (!RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 return;
             
-            _harmony = new Harmony("BefuddledLabs.LinuxVRChatSdkPatch-World");
-            _harmony.PatchAll();
+            WorldsHarmony.PatchAll();
+            var count = WorldsHarmony.GetPatchedMethods().Count();
+            Debug.Log($"{HarmonyID}: Patched {count} methods");
         }
     }
 }
