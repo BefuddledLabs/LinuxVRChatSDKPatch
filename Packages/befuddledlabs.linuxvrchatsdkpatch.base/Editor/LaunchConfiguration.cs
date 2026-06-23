@@ -55,7 +55,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             // SteamRoot
             var steamRoot = SteamLocator.FindSteamRoot();
-            if (steamRoot == null || !SteamLocator.IsValidSteamRoot(steamRoot))
+            if (steamRoot == null)
             {
                 Debug.LogError($"Couldn't find Steam root: \"{steamRoot}\"");
                 return null;

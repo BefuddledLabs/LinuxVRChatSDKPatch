@@ -37,7 +37,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Patches
         private static void OnGUIRowCustomProton()
         {
             var customProtonPath = LinuxVrcEditorPrefs.CustomProtonPath;
-            EditorGUILayout.LabelField("Custom Proton: ", customProtonPath ?? "");
+            EditorGUILayout.LabelField("Proton: ", customProtonPath ?? "<will auto-detect from Steam>");
             EditorGUILayout.BeginHorizontal();
             GUILayout.Label("");
 

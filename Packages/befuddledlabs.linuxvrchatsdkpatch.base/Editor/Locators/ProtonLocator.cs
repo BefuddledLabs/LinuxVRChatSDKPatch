@@ -98,7 +98,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Locators
         public static string? GetCompatibilityToolsDotD()
         {
             var steamRoot = SteamLocator.FindSteamRoot();
-            if (steamRoot == null || !SteamLocator.IsValidSteamRoot(steamRoot))
+            if (steamRoot == null)
             {
                 return null;
             }

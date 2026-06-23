@@ -3,8 +3,9 @@
 namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Locators
 {
     /// <summary>
-    ///     Data extracted from appcache.vdf on 2026-04-17 using a one-off script using new-vdf-parser[1]
-    ///     [1]: https://crates.io/crates/new-vdf-parser
+    ///     Data extracted from appcache/appinfo.vdf on 2026-06-22 using a one-off script using new-vdf-parser[^1]
+    /// 
+    ///     [^1]: https://crates.io/crates/new-vdf-parser
     /// </summary>
     public static class OfficialCompatToolData
     {
@@ -18,7 +19,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Locators
         private static readonly CompatTool Proton10 = new(
             "proton_10",
             "3658110",
-            "proton-9,proton-9.0-1RC,proton-stable,proton-next,proton_next,proton-7.0-1,proton-7.0-2,proton-7.0-3,proton-7.0-4,proton-7.0-5,proton-7.0-6,proton-8.0-1,proton-8.0-2,proton-8.0-3,proton-8.0-4,proton-8.0-5,proton-8.0RC,proton-9.0-2RC,proton-9.0-3RC,proton-9.0-4RC,proton-10,proton-10.0-beta,proton-10.0-3RC"
+            "proton-9,proton-9.0-1RC,proton-stable,proton-next,proton_next,proton-7.0-1,proton-7.0-2,proton-7.0-3,proton-7.0-4,proton-7.0-5,proton-7.0-6,proton-8.0-1,proton-8.0-2,proton-8.0-3,proton-8.0-4,proton-8.0-5,proton-8.0RC,proton-9.0-2RC,proton-9.0-3RC,proton-9.0-4RC,proton-10,proton-10.0-beta,proton-10.0-3RC,proton-10.0-4pin"
                 .Split(","),
             "Proton 10.0"
         );

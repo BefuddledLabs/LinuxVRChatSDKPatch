@@ -9,7 +9,7 @@
   "unity": "2022.3",
   "description": "Patches the VRChat Worlds SDK to work properly on Linux.",
   "vpmDependencies": {
-    "com.vrchat.worlds": "^3.10.3",
+    "com.vrchat.worlds": "^3.9.0",
     "befuddledlabs.linuxvrchatsdkpatch-base": "0.2.3"
   }
 }

@@ -86,7 +86,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Locators
         /// </summary>
         /// <param name="steamRoot">An absolute path to the Steam root directory.</param>
         /// <returns><see langword="true" /> if the directory looks like a Steam root, <see langword="false" /> otherwise.</returns>
-        public static bool IsValidSteamRoot(string? steamRoot)
+        private static bool IsValidSteamRoot(string? steamRoot)
         {
             if (string.IsNullOrEmpty(steamRoot) || !Directory.Exists(steamRoot))
             {
