@@ -31,6 +31,8 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Patches
         {
             EditorGUILayout.LabelField("Linux VRChat SDK Patch", EditorStyles.boldLabel);
             OnGUIRowCustomProton();
+            if (SteamRunDetector.IsInstalled)
+                OnGUIRowUseSteamRun();
             EditorGUILayout.Separator();
         }
 
@@ -68,6 +70,13 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Patches
             }
 
             EditorGUILayout.EndHorizontal();
+        }
+
+        private static void OnGUIRowUseSteamRun()
+        {
+            var useSteamRun = LinuxVrcEditorPrefs.UseSteamRun;
+            if (GUILayout.Toggle(useSteamRun, "Use steam-run") != useSteamRun)
+                LinuxVrcEditorPrefs.UseSteamRun = !useSteamRun;
         }
 
         private static string GetInitPath()

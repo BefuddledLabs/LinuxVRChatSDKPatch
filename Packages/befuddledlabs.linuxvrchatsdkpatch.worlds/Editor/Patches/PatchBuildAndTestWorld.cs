@@ -6,6 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
 using BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor;
+using BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Locators;
 using HarmonyLib;
 using UnityEngine.Networking;
 using VRC.Core;
@@ -60,7 +61,15 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor.Patches
             var argsRest =
                 $"--enable-debug-gui --enable-sdk-log-levels --enable-udon-debug-logging {(VRCSettings.ForceNoVR ? " --no-vr" : "")}{(VRCSettings.WatchWorlds ? " --watch-worlds" : "")}";
             // <patch> - set proton as the executable, prefix args with "run" (as in the Steam compatibility tool interface Verb) and path/to/VRChat.exe
-            var startInfo = new ProcessStartInfo(launchConfig.ProtonExecutable, $"run {executable} {argUrl} {argsRest}")
+
+            // is steam-run installed and selected?
+            var useSteamRun = LinuxVrcEditorPrefs.UseSteamRun && SteamRunDetector.IsInstalled;
+            
+            // if launching with steam-run, we need to set the executable to steam-run.
+            var launch = useSteamRun ? "steam-run" : launchConfig.ProtonExecutable;
+            var launchArgs = $"{(useSteamRun ? launchConfig.ProtonExecutable + " " : "")}run {executable} {argUrl} {argsRest}";
+            
+            var startInfo = new ProcessStartInfo(launch, launchArgs)
                 // </patch>
                 {
                     WorkingDirectory = Path.GetDirectoryName(executable) ?? "",
@@ -74,6 +83,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Worlds.Editor.Patches
                     UseShellExecute = false
                     // </patch>
                 };
+            
             for (var index = 0; index < VRCSettings.NumClients; ++index)
             {
                 Process.Start(startInfo);

@@ -6,6 +6,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
     {
         public const string PrefsKeyCustomProtonPath = "LinuxVRC_customProtonPath";
         public const string PrefsKeyCannyDialog = "LinuxVRC_cannyDialog";
+        public const string PrefsUseSteamRun = "LinuxVRC_useSteamRun";
 
         /// <summary>
         ///     An absolute path to the install dir of the user's preferred Proton version, or <see langword="null"/> if it is unset.
@@ -30,6 +31,15 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
         {
             get => UnityEditor.EditorPrefs.GetBool(PrefsKeyCannyDialog, false);
             set => UnityEditor.EditorPrefs.SetBool(PrefsKeyCannyDialog, value);
+        }
+
+        /// <summary>
+        ///     Whether the user wants to use steam-run to start VRChat, f.x. when running on NixOS
+        /// </summary>
+        public static bool UseSteamRun
+        {
+            get => UnityEditor.EditorPrefs.GetBool(PrefsUseSteamRun, false);
+            set => UnityEditor.EditorPrefs.SetBool(PrefsUseSteamRun, value);
         }
     }
 }
