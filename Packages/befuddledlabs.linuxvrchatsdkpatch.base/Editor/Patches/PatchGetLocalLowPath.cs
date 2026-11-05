@@ -18,7 +18,7 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor.Patches
     public class PatchGetLocalLowPath
     {
         [HarmonyPrefix]
-        [HarmonyPatch(typeof(VRC_SdkBuilder), nameof(VRC_SdkBuilder.GetLocalLowPath))]
+        [HarmonyPatch(typeof(VRC.Tools), nameof(VRC.Tools.GetLocalLowPath))]
         [SuppressMessage("ReSharper", "InconsistentNaming")]
         // ReSharper disable once UnusedMember.Global
         public static bool GetLocalLowPathPrefix(ref string __result)
