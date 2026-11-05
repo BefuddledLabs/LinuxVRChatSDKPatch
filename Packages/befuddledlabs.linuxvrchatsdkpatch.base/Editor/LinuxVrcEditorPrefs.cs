@@ -20,7 +20,13 @@ namespace BefuddledLabs.LinuxVRChatSdkPatch.Base.Editor
                     val = UnityEditor.EditorPrefs.GetString(PrefsKeyCustomProtonPath);
                 return val;
             }
-            set => UnityEditor.EditorPrefs.SetString(PrefsKeyCustomProtonPath, value);
+            set
+            {
+                if (value != null)
+                    UnityEditor.EditorPrefs.SetString(PrefsKeyCustomProtonPath, value);
+                else
+                    UnityEditor.EditorPrefs.DeleteKey(PrefsKeyCustomProtonPath);
+            }
         }
 
         /// <summary>
